@@ -1,10 +1,14 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AREngine from "./AR/ZapparCanvas";
 
 function App() {
   return (
-    <div style={{ height: "100vh" }}>
-      {/* <h1>Just Setting Up</h1> */}
-      <AREngine />
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/ar-view" element={<AREngine />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
