@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginHome from "./Components/login/LoginHome";
 import AREngine from "./Components/AR/ZapparCanvas";
 import Home from "./Components/Home/Home";
-import LoginHome from "./Components/login/LoginHome";
 
 function App() {
   return (
