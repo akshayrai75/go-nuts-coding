@@ -1,61 +1,44 @@
 import React, { useState } from "react";
-import { ImageTracker } from "@zappar/zappar-react-three-fiber";
-import { Html } from "@react-three/drei";
+import { ZapparCamera, ZapparCanvas } from "@zappar/zappar-react-three-fiber";
+import ImgTracking from "./ImgTracking";
 
-function ImgTracking({ header, description, targetImage, color }) {
-  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+const App = () => {
+  const [arInfo, setArInfo] = useState([
+    {
+      header: "camera",
+      description: "cam target image",
+      targetImage: "https://files.catbox.moe/dhr9y6.zpt",
+      color: "blue",
+    },
+    {
+      header: "Dog",
+      description: "dog target image",
+      targetImage: "https://files.catbox.moe/7x5hfw.zpt",
+      color: "red",
+    },
+    {
+      header: "gratisography",
+      description: "gratisography target img",
+      targetImage: "https://files.catbox.moe/i4ivzf.zpt",
+      color: "green",
+    },
+    {
+      header: "Microscope",
+      targetImage: "https://files.catbox.moe/nvdpou.zpt",
+      description:
+        "A microscope is an instrument that can be used to observe small objects, even cells. The image of an object is magnified through at least one lens in the microscope.",
+    },
+  ]);
+
   return (
-    <ImageTracker
-      onNewAnchor={(anchor) => console.log(`New anchor ${anchor.id}`)}
-      onNotVisible={(anchor) => {
-        setIsOverlayVisible(false);
-        console.log(`Not visible ${anchor.id}`);
-      }}
-      onVisible={(anchor) => {
-        setIsOverlayVisible(true);
-        console.log(`Visible ${anchor.id}`);
-      }}
-      targetImage={targetImage}
-      // incase of local url
-      // targetImage={new URL(url, document.baseURI).href}
-      visible={isOverlayVisible}
-    >
-      <mesh position={[0, 0, -5]}>
-        {isOverlayVisible && (
-          <Html>
-            <div
-              style={{
-                border: "2px solid #000",
-                borderRadius: "10px",
-                paddingLeft: "20px",
-                maxWidth: "1000px",
-                width: "800px",
-                background: "rgba(255, 255, 255, 0.8)",
-              }}
-            >
-              <h1>{header}</h1>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <p style={{ color: "black" }}>{description}</p>
-                <img
-                  src="https://files.catbox.moe/yb1jn9.jpg" // placeholder image/ replace with actual images
-                  alt="Placeholder overlay"
-                  style={{ maxWidth: "50%", marginTop: "20px" }}
-                />
-              </div>
-            </div>
-            <meshStandardMaterial color={color} />
-          </Html>
-        )}
-      </mesh>
-    </ImageTracker>
+    <ZapparCanvas>
+      <ZapparCamera />
+      {arInfo.map((info) => (
+        <ImgTracking {...info} />
+      ))}
+      <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
+    </ZapparCanvas>
   );
-}
+};
 
-export default ImgTracking;
+export default App;
