@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ImageTracker } from "@zappar/zappar-react-three-fiber";
 import { Html } from "@react-three/drei";
 
-function ImgTracking({ header, description, targetImage, color }) {
+function ImgTracking({ header, description, targetImage }) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   return (
     <ImageTracker
@@ -50,7 +50,6 @@ function ImgTracking({ header, description, targetImage, color }) {
                 />
               </div>
             </div>
-            <meshStandardMaterial color={color} />
           </Html>
         )}
       </mesh>
