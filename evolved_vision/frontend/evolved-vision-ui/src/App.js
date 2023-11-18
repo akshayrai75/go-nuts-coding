@@ -5,6 +5,7 @@ import RegisterUser from "./Components/register/RegisterUser";
 import AdminHome from "./Components/admin/AdminHome";
 import UserHome from "./Components/user/UserHome";
 import AREngine from "./Components/AR/ZapparCanvas";
+import AROverlayCutomization from "./Components/AR/AROverlayCutomization";
 
 function App() {
   return (
@@ -16,6 +17,11 @@ function App() {
           <Route exact path="/admin" element={<AdminHome />}></Route>
           <Route exact path="/user" element={<UserHome />}></Route>
           <Route exact path="/ar-view" element={<AREngine />} />
+          <Route
+            exact
+            path="/input-content"
+            element={<AROverlayCutomization />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
