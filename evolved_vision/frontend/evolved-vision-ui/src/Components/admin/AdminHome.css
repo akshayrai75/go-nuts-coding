@@ -1,0 +1,13 @@
+.admin_table_container {
+  width: var(--container-width-lg);
+  margin: 0 auto;
+  max-width: 2160px;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.table-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
