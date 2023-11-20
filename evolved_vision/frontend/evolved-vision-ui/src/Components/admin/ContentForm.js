@@ -21,6 +21,7 @@ function ContentForm(props) {
     formDetails,
     setFormDetails,
     handleFormSubmit,
+    isDetailsForm,
   } = props;
 
   const setDetails = (name, value) => {
@@ -59,7 +60,9 @@ function ContentForm(props) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={handleFormSubmit}>
-          <ModalHeader>ADD CONTENT</ModalHeader>
+          <ModalHeader>
+            {isDetailsForm ? "VIEW CONTENT" : "ADD CONTENT"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -93,6 +96,18 @@ function ContentForm(props) {
                 onChange={handleFormInput}
               />
             </FormControl>
+            {/* show pdf summary only in details form */}
+            {isDetailsForm ? (
+              <FormControl mt={4}>
+                <FormLabel>Summary From PDF</FormLabel>
+                <Textarea
+                  placeholder="pdf_summary"
+                  defaultValue={formDetails.pdfSummary}
+                />
+              </FormControl>
+            ) : (
+              <></>
+            )}
             <FormControl mt={4}>
               <FormLabel>Add AR Model</FormLabel>
               <Input
@@ -120,7 +135,7 @@ function ContentForm(props) {
 
           <ModalFooter>
             <Button type="submit" colorScheme="blue" mr={3}>
-              Add
+              {isDetailsForm ? "Update" : "Add"}
             </Button>
             <Button onClick={onModalClose}>Cancel</Button>
           </ModalFooter>
