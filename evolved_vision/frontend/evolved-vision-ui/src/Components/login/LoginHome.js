@@ -9,12 +9,21 @@ import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
 
 const LoginHome = () => {
+  const [user, setUser] = useState({
+    username: "",
+    pass: "",
+  });
+  const [msg, setMsg] = useState("");
+
   const handleChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
+    let value = e.target.value;
+    setUser({ ...user, [e.target.name]: value });
   };
 
   const userLogin = (e) => {
     e.preventDefault();
+    // TODO: API intergation
   };
 
   return (
