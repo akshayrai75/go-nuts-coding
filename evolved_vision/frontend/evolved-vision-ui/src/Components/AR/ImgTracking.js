@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ImageTracker } from "@zappar/zappar-react-three-fiber";
+import { Html } from "@react-three/drei";
 
-function ImgTracking({ targetImage, color }) {
+function ImgTracking({ header, description, targetImage, color }) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   return (
     <ImageTracker
@@ -20,8 +21,38 @@ function ImgTracking({ targetImage, color }) {
       visible={isOverlayVisible}
     >
       <mesh position={[0, 0, -5]}>
-        <sphereGeometry />
-        <meshStandardMaterial color={color} />
+        {isOverlayVisible && (
+          <Html>
+            <div
+              style={{
+                border: "2px solid #000",
+                borderRadius: "10px",
+                paddingLeft: "20px",
+                maxWidth: "1000px",
+                width: "800px",
+                background: "rgba(255, 255, 255, 0.8)",
+              }}
+            >
+              <h1>{header}</h1>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <p style={{ color: "black" }}>{description}</p>
+                <img
+                  src="https://files.catbox.moe/yb1jn9.jpg" // placeholder image/ replace with actual images
+                  alt="Placeholder overlay"
+                  style={{ maxWidth: "50%", marginTop: "20px" }}
+                />
+              </div>
+            </div>
+            <meshStandardMaterial color={color} />
+          </Html>
+        )}
       </mesh>
     </ImageTracker>
   );
