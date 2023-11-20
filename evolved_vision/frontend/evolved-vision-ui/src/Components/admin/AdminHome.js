@@ -11,11 +11,19 @@ import {
   Heading,
   Card,
   CardBody,
+  Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import data from "../../testData/data.json";
+import NewContent from "./NewContent";
 
 const AdminHome = () => {
   const [contentData, setContentData] = useState(data.data);
+  const {
+    isOpen: isNewContent,
+    onOpen: onNewContentOpen,
+    onClose: onNewContentClose,
+  } = useDisclosure();
 
   useEffect(() => {
     // fetch details
@@ -55,6 +63,9 @@ const AdminHome = () => {
         style={{ display: "flex", justifyContent: "space-between" }}
       >
         <Heading>Added Content History</Heading>
+        <Button onClick={onNewContentOpen} colorScheme="teal">
+          Add New Content
+        </Button>
       </div>
       <Card variant={"elevated"}>
         <CardBody>
@@ -66,6 +77,10 @@ const AdminHome = () => {
               <Tbody>{getTableRows()}</Tbody>
             </Table>
           </TableContainer>
+          <NewContent
+            isNewContent={isNewContent}
+            onNewContentClose={onNewContentClose}
+          />
         </CardBody>
       </Card>
     </div>
