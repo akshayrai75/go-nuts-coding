@@ -9,7 +9,7 @@ import { faUser, faKey, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
 import APIService from "../../utils/APIService";
 
-const RegisterUser = () => {
+const RegisterUser = ({ setIsAuthenticated }) => {
   const [user, setUser] = useState({
     role: "USER",
     emailId: "",
@@ -36,14 +36,18 @@ const RegisterUser = () => {
     e.preventDefault();
     APIService.postData("register", user)
       .then((res) => {
-        console.log("User Added Successfully");
-        setMsg("User Added Sucessfully");
-        setUser({
-          role: "USER",
-          emailId: "",
-          username: "",
-          pass: "",
-        });
+        if (res.status >= 200 && res.status < 300) {
+          console.log("User Added Successfully");
+          setMsg("User Added Sucessfully");
+          setUser({
+            role: "USER",
+            emailId: "",
+            username: "",
+            pass: "",
+          });
+          sessionStorage.setItem("user", JSON.stringify(res.data));
+          setIsAuthenticated(true);
+        }
       })
       .catch((error) => {
         console.log(error);
