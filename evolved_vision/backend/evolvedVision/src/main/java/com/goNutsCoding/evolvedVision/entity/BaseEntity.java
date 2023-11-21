@@ -19,8 +19,8 @@ public class BaseEntity {
     @Column(name = "id", nullable = false)
     private UUID id;
 
+    @Column(name = "created", nullable = false)
     @CreatedDate
-    @Column(nullable = false, updatable = false)
     private Date created;
 
     @LastModifiedDate
