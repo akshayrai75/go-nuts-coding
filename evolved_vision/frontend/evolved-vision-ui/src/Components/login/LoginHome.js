@@ -9,7 +9,7 @@ import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
 import APIService from "../../utils/APIService";
 
-const LoginHome = () => {
+const LoginHome = ({ setIsAuthenticated }) => {
   const [user, setUser] = useState({
     username: "",
     pass: "",
@@ -34,6 +34,8 @@ const LoginHome = () => {
             username: "",
             pass: "",
           });
+          sessionStorage.setItem("user", JSON.stringify(res.data));
+          setIsAuthenticated(true);
         }
       })
       .catch((error) => {
