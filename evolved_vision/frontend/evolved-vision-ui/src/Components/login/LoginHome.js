@@ -7,6 +7,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
+import APIService from "../../utils/APIService";
 
 const LoginHome = () => {
   const [user, setUser] = useState({
@@ -23,7 +24,21 @@ const LoginHome = () => {
 
   const userLogin = (e) => {
     e.preventDefault();
-    // TODO: API intergation
+    console.log("user", user);
+    APIService.post("login", user)
+      .then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          console.log(res, res.ok, "Login Successfully");
+          setMsg("Login Sucessfully");
+          setUser({
+            username: "",
+            pass: "",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

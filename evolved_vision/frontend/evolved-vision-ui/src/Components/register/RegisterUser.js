@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/logo512.png";
 import "./RegisterUser.css";
 import Form from "react-bootstrap/Form";
@@ -7,12 +7,47 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
+import APIService from "../../utils/APIService";
 
 const RegisterUser = () => {
-  const handleChange = (e) => {};
+  const [user, setUser] = useState({
+    role: "USER",
+    emailId: "",
+    username: "",
+    pass: "",
+  });
+  const [msg, setMsg] = useState("");
+
+  const handleChange = (e) => {
+    let value = e.target.value;
+
+    if (e.target.name === "role") {
+      if (e.target.value === "on") {
+        value = "ADMIN";
+      } else {
+        value = "USER";
+      }
+    } else {
+      setUser({ ...user, [e.target.name]: value });
+    }
+  };
 
   const registerUser = (e) => {
     e.preventDefault();
+    APIService.postData("register", user)
+      .then((res) => {
+        console.log("User Added Successfully");
+        setMsg("User Added Sucessfully");
+        setUser({
+          role: "USER",
+          emailId: "",
+          username: "",
+          pass: "",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
