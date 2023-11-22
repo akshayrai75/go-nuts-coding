@@ -9,6 +9,7 @@ import { faUser, faKey, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
 import APIService from "../../utils/APIService";
 import { useNavigate } from "react-router-dom";
+import { Heading } from "@chakra-ui/react";
 
 const RegisterUser = ({ setIsAuthenticated }) => {
   const [user, setUser] = useState({
@@ -50,20 +51,32 @@ const RegisterUser = ({ setIsAuthenticated }) => {
       })
       .catch((error) => {
         console.log(error);
+        setMsg(
+          "Either member with same username or email already exists, hence try different details, or internal server issue, hence try again later."
+        );
       });
+  };
+
+  const getPanelHeight = () => {
+    if (msg) {
+      return { height: "550px" };
+    }
   };
 
   return (
     <div className="container">
       <div className="d-flex justify-content-center h-100">
-        <div className="d-flex justify-content-end companyLogo">
+        <div className="d-flex justify-content-end register-companyLogo">
           <span>
-            <img src={logo} alt="Evolved Vision Logo" height={"120vm"}></img>
+            <img src={logo} alt="Evolved Vision Logo" height={50}></img>
           </span>
         </div>
-        <div className="register-panel">
+        <div className="register-panel" style={getPanelHeight()}>
           <div className="register-panel-header">
-            <h1>Sign Up</h1>
+            {/* <h1>Sign Up</h1> */}
+            <Heading style={{ color: "white", height: "70px" }}>
+              Sign Up
+            </Heading>
           </div>
           <div className="register-panel-body">
             <Form onSubmit={(e) => registerUser(e)}>
@@ -134,6 +147,7 @@ const RegisterUser = ({ setIsAuthenticated }) => {
               Hhave an account? <a href="/">Sign In</a>
             </div>
           </div>
+          {msg && <text style={{ color: "red" }}>{msg}</text>}
         </div>
       </div>
     </div>

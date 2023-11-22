@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
 import APIService from "../../utils/APIService";
+import { Heading } from "@chakra-ui/react";
 
 const LoginHome = ({ setIsAuthenticated }) => {
   const [user, setUser] = useState({
@@ -40,6 +41,7 @@ const LoginHome = ({ setIsAuthenticated }) => {
       })
       .catch((error) => {
         console.log(error);
+        setMsg("Invalid user credentials");
       });
   };
 
@@ -53,9 +55,12 @@ const LoginHome = ({ setIsAuthenticated }) => {
         </div>
         <div className="login-panel">
           <div className="login-panel-header">
-            <h1>Sign In</h1>
+            <Heading style={{ color: "white", height: "100px" }}>
+              Sign In
+            </Heading>
           </div>
           <div className="login-panel-body">
+            {msg && <text style={{ color: "red" }}>{msg}</text>}
             <Form onSubmit={(e) => userLogin(e)}>
               <InputGroup size="lg" className="mb-3 login-input-group-set">
                 <FontAwesomeIcon
