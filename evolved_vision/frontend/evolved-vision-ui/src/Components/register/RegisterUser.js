@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
 import APIService from "../../utils/APIService";
+import { useNavigate } from "react-router-dom";
 
 const RegisterUser = ({ setIsAuthenticated }) => {
   const [user, setUser] = useState({
@@ -17,7 +18,7 @@ const RegisterUser = ({ setIsAuthenticated }) => {
     pass: "",
   });
   const [msg, setMsg] = useState("");
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     let value = e.target.value;
 
@@ -27,14 +28,13 @@ const RegisterUser = ({ setIsAuthenticated }) => {
       } else {
         value = "USER";
       }
-    } else {
-      setUser({ ...user, [e.target.name]: value });
     }
+    setUser({ ...user, [e.target.name]: value });
   };
 
   const registerUser = (e) => {
     e.preventDefault();
-    APIService.postData("register", user)
+    APIService.postData("member", "register", user)
       .then((res) => {
         if (res.status >= 200 && res.status < 300) {
           console.log("User Added Successfully");
@@ -45,8 +45,7 @@ const RegisterUser = ({ setIsAuthenticated }) => {
             username: "",
             pass: "",
           });
-          sessionStorage.setItem("user", JSON.stringify(res.data));
-          setIsAuthenticated(true);
+          navigate("/");
         }
       })
       .catch((error) => {

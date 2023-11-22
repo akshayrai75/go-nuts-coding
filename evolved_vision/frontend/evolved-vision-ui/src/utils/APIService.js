@@ -1,9 +1,13 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/api/member";
+const API_URL = "http://localhost:8080/api/";
 
 class APIService {
-  postData(operation, formData) {
-    return axios.post(API_URL + "/" + operation, formData);
+  postData(caller, operation, formData) {
+    return axios.post(API_URL + caller + "/" + operation, formData);
+  }
+
+  getData(caller, params) {
+    return axios.get(API_URL + caller + "/" + params);
   }
 }
 

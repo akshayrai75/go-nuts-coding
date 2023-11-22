@@ -13,7 +13,7 @@ function ProtectedRoute() {
     } else {
       return <Navigate to="/ar-view" />;
     }
-  } else if (!user.id && location !== "/") {
+  } else if (!user.id && location !== "/" && location !== "/register") {
     // save the location so that after login user can be redirected to the same page
     return <Navigate to="/" state={{ from: location }} />;
   }

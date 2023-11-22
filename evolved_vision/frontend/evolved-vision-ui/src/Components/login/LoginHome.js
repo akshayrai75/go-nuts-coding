@@ -25,7 +25,7 @@ const LoginHome = ({ setIsAuthenticated }) => {
   const userLogin = (e) => {
     e.preventDefault();
     console.log("user", user);
-    APIService.post("login", user)
+    APIService.postData("member", "login", user)
       .then((res) => {
         if (res.status >= 200 && res.status < 300) {
           console.log(res, res.ok, "Login Successfully");
