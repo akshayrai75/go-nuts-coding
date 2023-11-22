@@ -16,8 +16,7 @@ public class FileNote extends BaseEntity{
 
     private String fileAddress;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "varchar(500)")
     private String notes;
 
     @ManyToOne

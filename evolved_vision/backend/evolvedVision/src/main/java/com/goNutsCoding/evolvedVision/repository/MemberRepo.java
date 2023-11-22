@@ -10,8 +10,8 @@ import java.util.UUID;
 @Repository
 public interface MemberRepo extends JpaRepository<Member, UUID> {
 
-    @Query(value = "SELECT * FROM Member m WHERE m.email_id = ?1  AND m.password = ?2 " +
-            "OR m.username = ?1 AND m.password = ?2", nativeQuery = true)
-    Member findByEmailIdAndPasswordOrUsernameAndPassword (String username, String password);
+    @Query(value = "SELECT * FROM Member m WHERE m.email_id = ?1 " +
+            "OR m.username = ?1", nativeQuery = true)
+    Member findByEmailIdOrUsername (String username);
 
 }

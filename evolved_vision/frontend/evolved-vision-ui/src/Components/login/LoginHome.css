@@ -17,8 +17,8 @@
 .login-panel {
     background-color: rgba(0, 0, 0, 0.8) !important;
     border-radius: 10%;
-    height: 270px;
-    width: 350px;
+    height: 380px;
+    width: 430px;
     margin-top: auto;
     margin-bottom: auto;
     padding: 10%;
@@ -36,6 +36,7 @@
 
 .login-panel-header h1 {
     color: white;
+    height: 50px;
 }
 
 .login-panel-footer {
@@ -61,6 +62,7 @@
 
 .companyLogo {
     width: 300px;
+    margin-left: 50px;
     padding-left: 40%;
     margin-bottom: -100px;
 }
