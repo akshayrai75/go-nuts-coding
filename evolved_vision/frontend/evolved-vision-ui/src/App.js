@@ -8,31 +8,46 @@ import AREngine from "./Components/AR/ZapparCanvas";
 import AROverlayCutomization from "./Components/AR/AROverlayCutomization";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { useState } from "react";
+import ContentCreation from "./Components/NewContent";
+import { Button, Container, Navbar } from "react-bootstrap";
+import logo from "./assets/logo512.png";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route element={<ProtectedRoute />}>
-            <Route
-              exact
-              path="/"
-              element={<LoginHome setIsAuthenticated={setIsAuthenticated} />}
-            />
-            <Route exact path="/register" element={<RegisterUser />}></Route>
-            <Route exact path="/admin" element={<AdminHome />}></Route>
-            <Route exact path="/user" element={<UserHome />}></Route>
-            <Route exact path="/ar-view" element={<AREngine />} />
-            <Route
-              exact
-              path="/input-content"
-              element={<AROverlayCutomization />}
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      {isAuthenticated ? (
+        <Navbar className="bg-body-tertiary">
+          <Container>
+            <Navbar.Brand href="#home">
+              <img
+                alt=""
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+              />{" "}
+              Evolved Vision
+            </Navbar.Brand>
+          </Container>
+        </Navbar>
+      ) : (
+        <></>
+      )}
+      <Routes>
+        <Route element={<ProtectedRoute />}>
+          <Route
+            exact
+            path="/"
+            element={<LoginHome setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route exact path="/register" element={<RegisterUser />}></Route>
+          <Route exact path="/admin" element={<AdminHome />}></Route>
+          <Route exact path="/user" element={<UserHome />}></Route>
+          <Route exact path="/ar-view" element={<AREngine />} />
+          <Route path="/new-content/*" element={<ContentCreation />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

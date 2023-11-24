@@ -65,9 +65,9 @@ const RegisterUser = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="container">
-      <div className="d-flex justify-content-center h-100">
-        <div className="d-flex justify-content-end register-companyLogo">
+    <div className="registration-container">
+      <div className=" h-100">
+        <div className="register-companyLogo">
           <span>
             <img src={logo} alt="Evolved Vision Logo" height={50}></img>
           </span>

@@ -17,6 +17,7 @@ import {
 import data from "../../testData/data.json";
 import NewContent from "./NewContent";
 import DetailsForm from "./DetailsForm";
+import { useNavigate } from "react-router-dom";
 
 const AdminHome = () => {
   const [contentData, setContentData] = useState(data.data);
@@ -39,10 +40,15 @@ const AdminHome = () => {
     onOpen: onDetailsOpen,
     onClose: onDetailsClose,
   } = useDisclosure();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // fetch details
   }, []);
+
+  const handleNewContentCreation = () => {
+    navigate("/new-content");
+  };
 
   const handleViewDetails = (details) => {
     let tempDetails = {
@@ -97,7 +103,13 @@ const AdminHome = () => {
         style={{ display: "flex", justifyContent: "space-between" }}
       >
         <Heading>Added Content History</Heading>
-        <Button onClick={onNewContentOpen} colorScheme="teal">
+        <Button
+          onClick={
+            handleNewContentCreation
+            // onNewContentOpen
+          }
+          colorScheme="teal"
+        >
           Add New Content
         </Button>
       </div>
