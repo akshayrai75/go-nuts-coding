@@ -157,11 +157,12 @@ function AROverlayCutomization() {
         }}
       />
 
-      <div className="bg-red-100 py-4 flex justify-around">
-        <Button className="w-1/4" variant="info" onClick={handlePreview}>
+      <div className=" py-4 flex justify-around">
+        <Button onClick={() => navigate(-1)}>Back</Button>
+        <Button variant="info" onClick={handlePreview}>
           Preview
         </Button>
-        <Button className="w-1/4" variant="primary" onClick={handleProceed}>
+        <Button variant="primary" onClick={handleProceed}>
           Proceed
         </Button>
       </div>

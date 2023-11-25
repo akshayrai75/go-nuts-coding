@@ -3,7 +3,7 @@ import AROverlayCutomization from "../../AR/AROverlayCutomization";
 
 function CustomContentCreation() {
   return (
-    <div className="flex justify-center bg-cyan-50">
+    <div className="flex justify-center">
       <AROverlayCutomization />
     </div>
   );

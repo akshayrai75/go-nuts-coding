@@ -39,19 +39,6 @@ function DefaultContentCreation() {
     }
   }
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const user = JSON.parse(sessionStorage.getItem("user")) || {};
-    const data = getFormData(formDetails);
-    data.append("userId", user.id);
-    APIService.postData("member/admin", "add-new-content", data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
   const handleFormInput = (e) => {
     try {
       const field = e.target.name;
@@ -75,6 +62,20 @@ function DefaultContentCreation() {
       formDetails.description,
       formDetails.mediaFiles
     );
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const user = JSON.parse(sessionStorage.getItem("user")) || {};
+    const data = getFormData(formDetails);
+    data.append("userId", user.id);
+    APIService.postData("member/admin", "add-new-content", data)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const handleProceed = () => {
@@ -102,112 +103,106 @@ function DefaultContentCreation() {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col
-          className="bg-slate-300 p-10 rounded-md"
-          md={{ span: 6, offset: 3 }}
+    <Container className="px-6">
+      <Form onSubmit={handleProceed}>
+        <Form.Group className="mb-3" controlId="title">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Title"
+            name="title"
+            onChange={handleFormInput}
+            value={formDetails.title}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="description">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            required
+            as="textarea"
+            rows={3}
+            placeholder="Description"
+            name="description"
+            onChange={handleFormInput}
+            value={formDetails.description}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="pdfFile">
+          <Form.Label>Add PDF</Form.Label>
+          <Form.Control
+            type="file"
+            accept=".pdf"
+            placeholder="Add PDF"
+            name="pdfFile"
+            onChange={handleFormInput}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="mediaFiles">
+          <Form.Label>Add Images or Videos</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*,video/*"
+            multiple // Allow multiple file selection
+            placeholder="Add Images or Videos"
+            name="mediaFiles"
+            onChange={handleFormInput}
+          />
+        </Form.Group>
+
+        {isDetailsForm && (
+          <Form.Group className="mb-3" controlId="pdfSummary">
+            <Form.Label>Summary From PDF</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              placeholder="pdf_summary"
+              defaultValue={formDetails.pdfSummary}
+              readOnly
+            />
+          </Form.Group>
+        )}
+
+        {/* Add AR Model, Target Image, and other form controls here */}
+        <div className="py-4 space-x-4 flex justify-end">
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Back
+          </Button>
+          <Button variant="info" onClick={handlePreview}>
+            Preview
+          </Button>
+          <Button type="submit" variant="primary">
+            Proceed
+          </Button>
+        </div>
+        <Modal
+          show={showPreviewModal}
+          onHide={handleClosePreviewModal}
+          dialogClassName="preview-modal"
         >
-          {/* <h1 className="mt-4 mb-4">
-            {isDetailsForm ? "VIEW CONTENT" : "ADD CONTENT"}
-          </h1> */}
-
-          <Form onSubmit={handleFormSubmit}>
-            <Form.Group className="mb-3" controlId="title">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Title"
-                name="title"
-                onChange={handleFormInput}
-                value={formDetails.title}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="description">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="Description"
-                name="description"
-                onChange={handleFormInput}
-                value={formDetails.description}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="pdfFile">
-              <Form.Label>Add PDF</Form.Label>
-              <Form.Control
-                type="file"
-                accept=".pdf"
-                placeholder="Add PDF"
-                name="pdfFile"
-                onChange={handleFormInput}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="mediaFiles">
-              <Form.Label>Add Images or Videos</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*,video/*"
-                multiple // Allow multiple file selection
-                placeholder="Add Images or Videos"
-                name="mediaFiles"
-                onChange={handleFormInput}
-              />
-            </Form.Group>
-
-            {isDetailsForm && (
-              <Form.Group className="mb-3" controlId="pdfSummary">
-                <Form.Label>Summary From PDF</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="pdf_summary"
-                  defaultValue={formDetails.pdfSummary}
-                  readOnly
-                />
-              </Form.Group>
-            )}
-
-            {/* Add AR Model, Target Image, and other form controls here */}
-            <div className="bg-red-100 py-4 flex justify-around">
-              <Button className="w-1/4" variant="info" onClick={handlePreview}>
-                Preview
-              </Button>
-              <Button
-                onClick={handleProceed}
-                className="w-1/4"
-                variant="primary"
-              >
-                Proceed
-              </Button>
+          <Modal.Header closeButton>
+            <Modal.Title>Preview</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="froala-preview-content">
+              <div dangerouslySetInnerHTML={{ __html: previewContent }} />
             </div>
-            <Modal
-              show={showPreviewModal}
-              onHide={handleClosePreviewModal}
-              dialogClassName="preview-modal"
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Preview</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <div className="froala-preview-content">
-                  <div dangerouslySetInnerHTML={{ __html: previewContent }} />
-                </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClosePreviewModal}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
-          </Form>
-        </Col>
-      </Row>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClosePreviewModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </Form>
     </Container>
   );
 }

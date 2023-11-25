@@ -44,7 +44,9 @@ const ProgressIndicator = () => {
             >
               {index + 1}
             </div>
-            <div className="step-label">{steps?.[index]?.[0]?.label}</div>
+            <div className="step-label font-semibold">
+              {steps?.[index]?.[0]?.label}
+            </div>
           </div>
         </div>
       ))}
