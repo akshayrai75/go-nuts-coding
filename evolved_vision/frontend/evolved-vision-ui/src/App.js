@@ -11,6 +11,7 @@ import { useState } from "react";
 import ContentCreation from "./Components/NewContent";
 import { Button, Container, Navbar } from "react-bootstrap";
 import logo from "./assets/logo512.png";
+import LogoutComponent from "./Components/logout/Logout";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,6 +30,7 @@ function App() {
               />{" "}
               Evolved Vision
             </Navbar.Brand>
+            <LogoutComponent setIsAuthenticated={setIsAuthenticated} />
           </Container>
         </Navbar>
       ) : (
