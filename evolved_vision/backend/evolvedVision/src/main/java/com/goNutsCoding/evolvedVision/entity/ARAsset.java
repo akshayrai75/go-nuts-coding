@@ -14,7 +14,8 @@ public class ARAsset extends BaseEntity{
     @JoinColumn(name="member_id", nullable=false)
     private Member member;
 
-    private String modelAddress;
+    @Column(columnDefinition = "varchar(2000)")
+    private String arOverlay;
 
     @ManyToOne
     @JoinColumn(name="file_note_id", nullable=false)

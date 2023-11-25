@@ -12,7 +12,7 @@ public class ARAssetMapper {
                 arAsset.getId(),
                 arAsset.getCreated(),
                 arAsset.getLastModified(),
-                arAsset.getModelAddress(),
+                arAsset.getArOverlay(),
                 arContentDto,
                 targetImageDto,
                 arAsset.getTakeNotes()
