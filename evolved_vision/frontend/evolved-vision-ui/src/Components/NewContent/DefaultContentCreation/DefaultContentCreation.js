@@ -32,10 +32,14 @@ function DefaultContentCreation() {
     }));
   };
 
-  async function handleFileChange(e) {
+  async function handleFileChange(e, shouldUpload = true) {
     if (e.target.files && e.target.files) {
-      const link = await getS3Link(e.target.files[0], user.id);
-      setDetails(e.target.name, link);
+      if (shouldUpload) {
+        const link = await getS3Link(e.target.files[0], user.id);
+        setDetails(e.target.name, link);
+      } else {
+        setDetails(e.target.name, e.target.files[0]);
+      }
     }
   }
 
@@ -44,6 +48,8 @@ function DefaultContentCreation() {
       const field = e.target.name;
       switch (field) {
         case "pdfFile":
+          handleFileChange(e, false);
+          break;
         case "mediaFiles":
         case "pdf_summary":
           handleFileChange(e);
@@ -64,19 +70,19 @@ function DefaultContentCreation() {
     );
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const user = JSON.parse(sessionStorage.getItem("user")) || {};
-    const data = getFormData(formDetails);
-    data.append("userId", user.id);
-    APIService.postData("member/admin", "add-new-content", data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  // const handleFormSubmit = (e) => {
+  //   e.preventDefault();
+  //   const user = JSON.parse(sessionStorage.getItem("user")) || {};
+  //   const data = getFormData(formDetails);
+  //   data.append("userId", user.id);
+  //   APIService.postData("member/admin", "add-new-content", data)
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
   const handleProceed = () => {
     const html = getHtml();
@@ -87,6 +93,7 @@ function DefaultContentCreation() {
         header: formDetails.title,
         description: formDetails.description,
         images: [formDetails.mediaFiles],
+        pdfFile: formDetails.pdfFile,
         [IS_CUSTOM_TEMPLATE]: false,
       },
     });
