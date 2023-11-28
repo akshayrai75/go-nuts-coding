@@ -14,13 +14,19 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import data from "../../testData/data.json";
 import NewContent from "./NewContent";
 import DetailsForm from "./DetailsForm";
 import { useNavigate } from "react-router-dom";
+import APIService from "../../utils/APIService";
+import { extractDetails } from "../../utils/extractSubmittedList";
 
 const AdminHome = () => {
-  const [contentData, setContentData] = useState(data.data);
+  const [contentData, setContentData] = useState(null);
+  const [msg, setMsg] = useState("");
+
   const [detailsViewData, setDetailsViewData] = useState({
     date: "",
     title: "",
@@ -43,7 +49,19 @@ const AdminHome = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch details
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    APIService.getData("member", user.id)
+      .then((res) => {
+        console.log("User data received Successfully");
+        setMsg("User data received Sucessfully");
+        console.log(res.data);
+        const formData = extractDetails(res.data);
+        setContentData(formData);
+      })
+      .catch((error) => {
+        setMsg("Internal server issue, hence try again later.");
+        toast.error("Internal server issue, try again later.");
+      });
   }, []);
 
   const handleNewContentCreation = () => {
@@ -65,11 +83,15 @@ const AdminHome = () => {
     onDetailsOpen();
   };
 
+  const details =
+    contentData?.[0] &&
+    Object.keys(contentData[0]).filter(
+      (key) => !["pdfSummary", "targetImage", "modelAddress"].includes(key)
+    );
   const getTableHeaders = () => {
     let tblHeader = <Th key={"headers-loading"}>LOADING...</Th>;
     if (contentData) {
-      tblHeader = Object.keys(contentData[0]).map((key, index) => {
-        if (["description", "pdfSummary"].includes(key)) return;
+      tblHeader = details?.map((key, index) => {
         return <Th key={index + "_" + key}>{key.toUpperCase()}</Th>;
       });
     }
@@ -86,8 +108,8 @@ const AdminHome = () => {
             onClick={(e) => handleViewDetails(row)}
             style={{ cursor: "pointer" }}
           >
-            {Object.values(row).map((value, index) => {
-              if (![5, 6].includes(index)) return <Td key={index}>{value}</Td>;
+            {details.map((value, index) => {
+              return <Td key={index}>{row?.[value]}</Td>;
             })}
           </Tr>
         );
@@ -98,18 +120,13 @@ const AdminHome = () => {
 
   return (
     <div className="admin_table_container">
+      <ToastContainer />
       <div
         className="table-button"
         style={{ display: "flex", justifyContent: "space-between" }}
       >
         <Heading>Added Content History</Heading>
-        <Button
-          onClick={
-            handleNewContentCreation
-            // onNewContentOpen
-          }
-          colorScheme="teal"
-        >
+        <Button onClick={handleNewContentCreation} colorScheme="teal">
           Add New Content
         </Button>
       </div>
