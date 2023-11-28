@@ -3,7 +3,7 @@ import { Container, Form, Button, Spinner } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getS3Link } from "../../utils/getS3ObjectLink";
 import { getFormData } from "../../utils/helper";
-import APIService from "../../utils/APIService";
+import APIService, { TARGET_IMAGE_URL } from "../../utils/APIService";
 import { formatNewContentPayload } from "../../utils/fomatDataForAPI";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -38,7 +38,7 @@ function UploadTargetFile() {
     };
     // console.log("setLoading" );
     axios
-      .post("http://localhost:3001/generate-zpt", {
+      .post(TARGET_IMAGE_URL, {
         s3Link: details.targetImage,
       })
       .then((res) => {
