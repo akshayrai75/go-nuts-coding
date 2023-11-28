@@ -1,22 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AdminHome.css";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Heading,
-  Card,
-  CardBody,
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import data from "../../testData/data.json";
+import { Button, Table, Spinner } from "react-bootstrap";
 import NewContent from "./NewContent";
 import DetailsForm from "./DetailsForm";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +10,7 @@ import { extractDetails } from "../../utils/extractSubmittedList";
 const AdminHome = () => {
   const [contentData, setContentData] = useState(null);
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [detailsViewData, setDetailsViewData] = useState({
     date: "",
@@ -36,20 +21,15 @@ const AdminHome = () => {
     modelFileName: "",
     targetImageFileName: "",
   });
-  const {
-    isOpen: isNewContent,
-    onOpen: onNewContentOpen,
-    onClose: onNewContentClose,
-  } = useDisclosure();
-  const {
-    isOpen: isDetailsOpen,
-    onOpen: onDetailsOpen,
-    onClose: onDetailsClose,
-  } = useDisclosure();
+
+  const [isNewContent, setNewContent] = useState(false);
+  const [isDetailsOpen, setDetailsOpen] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
+    setLoading(true);
     APIService.getData("member", user.id)
       .then((res) => {
         console.log("User data received Successfully");
@@ -60,7 +40,9 @@ const AdminHome = () => {
       })
       .catch((error) => {
         setMsg("Internal server issue, hence try again later.");
-        toast.error("Internal server issue, try again later.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -78,9 +60,9 @@ const AdminHome = () => {
       modelFileName: details["model_filename"],
       targetImageFileName: details["target_image_filename"],
     };
-    onNewContentClose();
+    setNewContent(false);
     setDetailsViewData(tempDetails);
-    onDetailsOpen();
+    setDetailsOpen(true);
   };
 
   const details =
@@ -88,71 +70,67 @@ const AdminHome = () => {
     Object.keys(contentData[0]).filter(
       (key) => !["pdfSummary", "targetImage", "modelAddress"].includes(key)
     );
+
   const getTableHeaders = () => {
-    let tblHeader = <Th key={"headers-loading"}>LOADING...</Th>;
     if (contentData) {
-      tblHeader = details?.map((key, index) => {
-        return <Th key={index + "_" + key}>{key.toUpperCase()}</Th>;
-      });
+      return details?.map((key, index) => (
+        <th key={index + "_" + key}>{key.toUpperCase()}</th>
+      ));
     }
-    return tblHeader;
+    return null;
   };
 
   const getTableRows = () => {
-    let tblRows = <Th key={"body-loading"}>LOADING...</Th>;
     if (contentData) {
-      tblRows = contentData.map((row, index) => {
-        return (
-          <Tr
-            key={index}
-            onClick={(e) => handleViewDetails(row)}
-            style={{ cursor: "pointer" }}
-          >
-            {details.map((value, index) => {
-              return <Td key={index}>{row?.[value]}</Td>;
-            })}
-          </Tr>
-        );
-      });
+      return contentData.map((row, index) => (
+        <tr
+          key={index}
+          onClick={() => handleViewDetails(row)}
+          style={{ cursor: "pointer" }}
+        >
+          {details.map((value, index) => (
+            <td key={index}>{row?.[value]}</td>
+          ))}
+        </tr>
+      ));
     }
-    return tblRows;
+    return null;
   };
 
   return (
     <div className="admin_table_container">
-      <ToastContainer />
       <div
         className="table-button"
         style={{ display: "flex", justifyContent: "space-between" }}
       >
-        <Heading>Added Content History</Heading>
-        <Button onClick={handleNewContentCreation} colorScheme="teal">
+        <h1>Added Content History</h1>
+        <Button onClick={handleNewContentCreation} variant="info">
           Add New Content
         </Button>
       </div>
-      <Card variant={"elevated"}>
-        <CardBody>
-          <TableContainer>
-            <Table variant="striped" size={"md"}>
-              <Thead>
-                <Tr>{getTableHeaders()}</Tr>
-              </Thead>
-              <Tbody>{getTableRows()}</Tbody>
-            </Table>
-          </TableContainer>
-          <NewContent
-            isNewContent={isNewContent}
-            onNewContentClose={onNewContentClose}
-          />
-          <DetailsForm
-            isDetailsOpen={isDetailsOpen}
-            onDetailsOpen={onDetailsOpen}
-            detailsViewData={detailsViewData}
-            setDetailsViewData={setDetailsViewData}
-            onDetailsClose={onDetailsClose}
-          />
-        </CardBody>
-      </Card>
+      {loading ? (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      ) : (
+        <Table striped bordered hover>
+          <thead>
+            <tr>{getTableHeaders()}</tr>
+          </thead>
+          <tbody>{getTableRows()}</tbody>
+        </Table>
+      )}
+      <NewContent
+        isNewContent={isNewContent}
+        onNewContentClose={() => setNewContent(false)}
+      />
+      <DetailsForm
+        isDetailsOpen={isDetailsOpen}
+        onDetailsOpen={() => setDetailsOpen(true)}
+        detailsViewData={detailsViewData}
+        setDetailsViewData={setDetailsViewData}
+        onDetailsClose={() => setDetailsOpen(false)}
+      />
     </div>
   );
 };
