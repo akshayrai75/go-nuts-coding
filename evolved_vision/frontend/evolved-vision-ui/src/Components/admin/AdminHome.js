@@ -36,6 +36,7 @@ const AdminHome = () => {
         setMsg("User data received Sucessfully");
         console.log(res.data);
         const formData = extractDetails(res.data);
+        console.log("formData", formData);
         setContentData(formData);
       })
       .catch((error) => {
@@ -68,7 +69,16 @@ const AdminHome = () => {
   const details =
     contentData?.[0] &&
     Object.keys(contentData[0]).filter(
-      (key) => !["pdfSummary", "targetImage", "modelAddress"].includes(key)
+      (key) =>
+        ![
+          "pdfSummary",
+          "targetImage",
+          "modelAddress",
+          "customTemplate",
+          "images",
+          "videos",
+          "orgTargetImage",
+        ].includes(key)
     );
 
   const getTableHeaders = () => {

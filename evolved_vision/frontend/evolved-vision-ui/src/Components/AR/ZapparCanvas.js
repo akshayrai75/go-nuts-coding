@@ -13,7 +13,7 @@ const App = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     // fetch details
     // TODO: need to change the API, hardcoded the userid to get some details
-    APIService.getData("member", "087dc60b-b392-4e12-92db-b5fa02c2a56e")
+    APIService.getData("member", `user/${user.id}`)
       .then((res) => {
         toast.success("Data received Successfully");
         console.log(res.data);

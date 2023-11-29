@@ -16,4 +16,6 @@ public class ARAssetFiles implements Serializable {
 
     private String[] images;
     private String[] videos;
+    private String orgTargetImage;
+    private boolean customTemplate;
 }
