@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class ARAssetFilesDTO {
     private String[] images;
     private String[] videos;
+    private String orgTargetImage;
+    private boolean customTemplate;
 }

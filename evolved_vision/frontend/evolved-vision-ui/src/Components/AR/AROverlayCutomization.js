@@ -11,7 +11,7 @@ import "froala-editor/js/plugins/font_size.min.js";
 // stylings
 import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import APIService from "../../utils/APIService";
 import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
@@ -23,7 +23,7 @@ function AROverlayCutomization() {
     setModel(event);
   };
   const [showPreviewModal, setShowPreviewModal] = useState(false);
-
+  const [pdfFile, setPdfFile] = useState(null);
   const editorRef = useRef(null); // Ref to store the editor instance
   const toolbarOptions = {
     moreText: {
@@ -78,7 +78,7 @@ function AROverlayCutomization() {
   const handleProceed = () => {
     const details = extractContent(model);
     navigate("../target-image", {
-      state: { ...details, model, [IS_CUSTOM_TEMPLATE]: true },
+      state: { ...details, pdfFile, model, [IS_CUSTOM_TEMPLATE]: true },
     });
   };
 
@@ -132,6 +132,12 @@ function AROverlayCutomization() {
       });
   };
 
+  async function handleFileChange(e) {
+    if (e.target.files && e.target.files[0]) {
+      setPdfFile(e.target.files[0]);
+    }
+  }
+
   return (
     <div className="flex flex-col">
       <FroalaEditor
@@ -156,6 +162,16 @@ function AROverlayCutomization() {
           },
         }}
       />
+      <Form.Group className="mb-3" controlId="pdfFile">
+        <Form.Label>Add PDF</Form.Label>
+        <Form.Control
+          type="file"
+          accept=".pdf"
+          placeholder="Add PDF"
+          name="pdfFile"
+          onChange={handleFileChange}
+        />
+      </Form.Group>
 
       <div className=" py-4 flex justify-around">
         <Button onClick={() => navigate(-1)}>Back</Button>

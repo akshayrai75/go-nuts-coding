@@ -1,49 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { ZapparCamera, ZapparCanvas } from "@zappar/zappar-react-three-fiber";
 import ImgTracking from "./ImgTracking";
+import { extractDetails } from "../../utils/extractSubmittedList";
+import APIService from "../../utils/APIService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  const [arInfo, setArInfo] = useState([
-    {
-      header: "camera",
-      description: "cam target image",
-      // instead of all the above information about the ar overlay
-      // we can just the get the html itself(need to look into space complexity)
-      targetImage: "https://files.catbox.moe/dhr9y6.zpt",
-    },
-    {
-      header: "Dog",
-      description: "dog target image",
-      targetImage: "https://files.catbox.moe/7x5hfw.zpt",
-    },
-    {
-      header: "gratisography",
-      description: "gratisography target img",
-      targetImage: "https://files.catbox.moe/i4ivzf.zpt",
-    },
-    {
-      header: "Microscope",
-      targetImage: "https://files.catbox.moe/nvdpou.zpt",
-      description:
-        "A microscope is an instrument that can be used to observe small objects, even cells. The image of an object is magnified through at least one lens in the microscope.",
-    },
-  ]);
+  const [arInfo, setArInfo] = useState([]);
 
   useEffect(() => {
-    // fetch the ar details based on the tags(subjects)
-    // 1. which could be given during registration
-    // 2. a separate table which has the registration records of the students
-    // set the above info to arInfo
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    // fetch details
+    // TODO: need to change the API, hardcoded the userid to get some details
+    APIService.getData("member", "087dc60b-b392-4e12-92db-b5fa02c2a56e")
+      .then((res) => {
+        toast.success("Data received Successfully");
+        console.log(res.data);
+        const formData = extractDetails(res.data);
+        setArInfo(formData);
+      })
+      .catch((error) => {
+        toast.error("Internal server issue, please try again later.");
+      });
   }, []);
 
   return (
-    <ZapparCanvas>
-      <ZapparCamera />
-      {arInfo.map((info) => (
-        <ImgTracking {...info} />
-      ))}
-      <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
-    </ZapparCanvas>
+    <>
+      <ZapparCanvas>
+        <ZapparCamera />
+        {arInfo.map((info) => (
+          <ImgTracking {...info} />
+        ))}
+        <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
+      </ZapparCanvas>
+      <ToastContainer />
+    </>
   );
 };
 
