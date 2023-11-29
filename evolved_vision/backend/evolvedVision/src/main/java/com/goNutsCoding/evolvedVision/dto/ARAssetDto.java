@@ -15,4 +15,5 @@ public class ARAssetDto implements Serializable {
     private final ARContentDto arContent;
     private final TargetImageDto targetImage;
     private final Boolean takeNotes;
+    private final UUID fileNoteId;
 }

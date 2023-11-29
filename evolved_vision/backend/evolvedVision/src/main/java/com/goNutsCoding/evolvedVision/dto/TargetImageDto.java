@@ -13,4 +13,5 @@ public class TargetImageDto implements Serializable {
     private final Date lastModified;
     private final String imageAddress;
     private final Boolean isPublic;
+    private final UUID arAssetId;
 }

@@ -10,7 +10,8 @@ public class TargetImageMapper {
                 targetImage.getCreated(),
                 targetImage.getLastModified(),
                 targetImage.getImageAddress(),
-                targetImage.getIsPublic()
+                targetImage.getIsPublic(),
+                targetImage.getArAsset().getId()
         );
     }
 }

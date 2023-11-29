@@ -15,7 +15,8 @@ public class ARAssetMapper {
                 arAsset.getArOverlay(),
                 arContentDto,
                 targetImageDto,
-                arAsset.getTakeNotes()
+                arAsset.getTakeNotes(),
+                arAsset.getFileNote().getId()
         );
     }
 }

@@ -15,4 +15,5 @@ public class ARContentDto implements Serializable {
     private final String contentHeader;
     private final String contentBody;
     private final ARAssetFiles arAssetFiles;
+    private final UUID arAssetId;
 }

@@ -11,7 +11,8 @@ public class ARContentMapper {
                 arContent.getLastModified(),
                 arContent.getContentHeader(),
                 arContent.getContentBody(),
-                arContent.getArAssetFiles()
+                arContent.getArAssetFiles(),
+                arContent.getArAsset().getId()
         );
     }
 }
