@@ -37,7 +37,7 @@ app.post("/generate-zpt", async (req, res) => {
     const zptOutputPath = path.join(
       __dirname,
       zptFolder,
-      `target-${objectKey}.zpt`
+      `target-${objectKey}`
     );
     // console.log("111", Date.now().toString());
     const zapworksCommand = `zapworks train ${path.join(
