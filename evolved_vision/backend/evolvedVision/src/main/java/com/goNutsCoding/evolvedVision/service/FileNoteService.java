@@ -22,8 +22,7 @@ public class FileNoteService {
         fileNotes.iterator().forEachRemaining(fileNote -> {
             FileNoteDto fileNoteDto = FileNoteMapper.mapFileNoteToFileNoteDto(
                     fileNote,
-                    arAssetsByMemberId
-            );
+                    arAssetsByMemberId);
             fileNoteDtos.add(fileNoteDto);
         });
 
@@ -34,7 +33,7 @@ public class FileNoteService {
         return fileNoteRepo.save(fileNote);
     }
 
-    public Set<FileNoteDto> getAllFileNotes (Set<ARAssetDto> arAssets) {
+    public Set<FileNoteDto> getAllFileNotes(Set<ARAssetDto> arAssets) {
         Set<FileNoteDto> fileNoteDtos = new HashSet<>();
         List<FileNote> fileNotes = fileNoteRepo.findAll();
         Set<FileNote> fileNoteSet = new HashSet<>(fileNotes);
@@ -43,8 +42,7 @@ public class FileNoteService {
         fileNoteSet.iterator().forEachRemaining(fileNote -> {
             FileNoteDto fileNoteDto = FileNoteMapper.mapFileNoteToFileNoteDto(
                     fileNote,
-                    assetDtoMap.get(fileNote.getId())
-            );
+                    assetDtoMap.get(fileNote.getId()));
             fileNoteDtos.add(fileNoteDto);
         });
 
@@ -53,8 +51,17 @@ public class FileNoteService {
 
     private Map<UUID, Set<ARAssetDto>> getAssetDtoMap(Set<ARAssetDto> arAssets) {
         Map<UUID, Set<ARAssetDto>> assetDtoMap = new HashMap<>();
-        arAssets.iterator().forEachRemaining(arAssetDto ->
-                assetDtoMap.get(assetDtoMap.putIfAbsent(arAssetDto.getFileNoteId(), new HashSet<>())).add(arAssetDto));
+        arAssets.iterator().forEachRemaining(arAssetDto -> {
+
+            if (assetDtoMap.containsKey(arAssetDto.getFileNoteId()))
+                assetDtoMap.get(arAssetDto.getFileNoteId()).add(arAssetDto);
+            else
+                assetDtoMap.put(arAssetDto.getFileNoteId(), new HashSet<>(List.of(arAssetDto)));
+        });
+
+        // arAssets.iterator().forEachRemaining(arAssetDto -> assetDtoMap
+        // .get(assetDtoMap.putIfAbsent(arAssetDto.getFileNoteId(), new
+        // HashSet<>())).add(arAssetDto));
 
         return assetDtoMap;
     }
