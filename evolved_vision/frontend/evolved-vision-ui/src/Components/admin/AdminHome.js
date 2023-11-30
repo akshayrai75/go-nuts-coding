@@ -52,18 +52,21 @@ const AdminHome = () => {
   };
 
   const handleViewDetails = (details) => {
-    let tempDetails = {
-      date: details["date"],
-      title: details["title"],
-      description: details["description"],
-      pdfFileName: details["pdf_filename"],
-      pdfSummary: details["pdfSummary"],
-      modelFileName: details["model_filename"],
-      targetImageFileName: details["target_image_filename"],
-    };
-    setNewContent(false);
-    setDetailsViewData(tempDetails);
-    setDetailsOpen(true);
+    navigate("/AR-content-details", {
+      state: details,
+    });
+    // let tempDetails = {
+    //   date: details["date"],
+    //   title: details["title"],
+    //   description: details["description"],
+    //   pdfFileName: details["pdf_filename"],
+    //   pdfSummary: details["pdfSummary"],
+    //   modelFileName: details["model_filename"],
+    //   targetImageFileName: details["target_image_filename"],
+    // };
+    // setNewContent(false);
+    // setDetailsViewData(tempDetails);
+    // setDetailsOpen(true);
   };
 
   const details =

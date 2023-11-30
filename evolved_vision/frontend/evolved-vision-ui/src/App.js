@@ -11,6 +11,7 @@ import { useState } from "react";
 import ContentCreation from "./Components/NewContent";
 import { Button, Container, Navbar } from "react-bootstrap";
 import logo from "./assets/logo512.png";
+import ARContentDetails from "./Components/ARContentDetails";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -46,6 +47,7 @@ function App() {
           <Route exact path="/user" element={<UserHome />}></Route>
           <Route exact path="/ar-view" element={<AREngine />} />
           <Route path="/new-content/*" element={<ContentCreation />} />
+          <Route path="/AR-content-details" element={<ARContentDetails />} />
         </Route>
       </Routes>
     </div>
