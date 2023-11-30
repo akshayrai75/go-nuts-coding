@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/member/admin")
 @Validated
+@CrossOrigin(origins = "*")
 public class AdminController {
 
     @Autowired
