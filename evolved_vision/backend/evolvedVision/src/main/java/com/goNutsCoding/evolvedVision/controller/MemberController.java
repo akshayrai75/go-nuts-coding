@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/member")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class MemberController {
 
     @Autowired
@@ -38,6 +38,7 @@ public class MemberController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     @PostMapping("/login")
     public ResponseEntity<MemberDto> validateMemberLogin(@Validated @RequestBody MemberLoginDto member) {
         try {
@@ -51,6 +52,7 @@ public class MemberController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<MemberDto> getUserData(@PathVariable(value = "id") UUID userId) {
         try {
@@ -67,13 +69,15 @@ public class MemberController {
 
     /**
      * API to enable downloading saved Files from S3
-     * Reference: https://www.baeldung.com/spring-controller-return-image-file#rawdata
+     * Reference:
+     * https://www.baeldung.com/spring-controller-return-image-file#rawdata
      * Site: baeldung.com/
-     * Topic: Download an Image or a File with Spring MVC : Using produces for Returning Raw Data
-     * */
+     * Topic: Download an Image or a File with Spring MVC : Using produces for
+     * Returning Raw Data
+     */
     @GetMapping(value = "/download_file", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public Resource downloadS3File (@RequestParam String fileAddress) throws IOException {
+    public Resource downloadS3File(@RequestParam String fileAddress) throws IOException {
         File fileFromS3 = memberService.getFileFromS3(fileAddress);
         ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(fileFromS3.toPath()));
         return resource;

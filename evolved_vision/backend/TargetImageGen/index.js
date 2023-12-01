@@ -70,6 +70,8 @@ app.post("/generate-zpt", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+var server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+server.timeout = 50000;
