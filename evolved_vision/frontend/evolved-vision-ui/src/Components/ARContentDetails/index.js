@@ -45,7 +45,7 @@ const ARContentDetails = (props) => {
         </div>
       </div>
       <div className="p-6">
-        <div className=" font-bold text-3xl">Pdf summary</div>
+        <div className=" font-bold  text-3xl">Pdf summary</div>
         <span className="">{notes}</span>
       </div>
     </div>
