@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginHome from "./Components/login/LoginHome";
 import RegisterUser from "./Components/register/RegisterUser";
 import AdminHome from "./Components/admin/AdminHome";
-import UserHome from "./Components/user/UserHome";
 import AREngine from "./Components/AR/ZapparCanvas";
 import AROverlayCutomization from "./Components/AR/AROverlayCutomization";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -46,7 +45,6 @@ function App() {
           />
           <Route exact path="/register" element={<RegisterUser />}></Route>
           <Route exact path="/admin" element={<AdminHome />}></Route>
-          <Route exact path="/user" element={<UserHome />}></Route>
           <Route exact path="/ar-view" element={<AREngine />} />
           <Route path="/new-content/*" element={<ContentCreation />} />
           <Route path="/AR-content-details" element={<ARContentDetails />} />
