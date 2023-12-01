@@ -2,7 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
-.container {
+.login-container {
     background-size: cover;
     background-repeat: no-repeat;
     background-image: url('../../assets/login_background.jpg');
@@ -17,7 +17,7 @@
 .login-panel {
     background-color: rgba(0, 0, 0, 0.8) !important;
     border-radius: 10%;
-    height: 380px;
+    /* height: 380px; */
     width: 430px;
     margin-top: auto;
     margin-bottom: auto;

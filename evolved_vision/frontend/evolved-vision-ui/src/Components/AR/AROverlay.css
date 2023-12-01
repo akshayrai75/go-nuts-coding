@@ -1,0 +1,11 @@
+.preview-modal {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .froala-preview-content {
+    height: 100%;
+    max-height: 350px;
+    overflow: auto;
+  }
+  

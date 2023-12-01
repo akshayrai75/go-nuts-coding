@@ -10,7 +10,8 @@ public class ARContentMapper {
                 arContent.getCreated(),
                 arContent.getLastModified(),
                 arContent.getContentHeader(),
-                arContent.getContentBody()
-        );
+                arContent.getContentBody(),
+                arContent.getArAssetFiles(),
+                arContent.getArAsset().getId());
     }
 }

@@ -10,10 +10,11 @@ import { FormGroup } from "react-bootstrap";
 import APIService from "../../utils/APIService";
 import { useNavigate } from "react-router-dom";
 import { Heading } from "@chakra-ui/react";
+import { USER_ROLES } from "../../constants";
 
 const RegisterUser = ({ setIsAuthenticated }) => {
   const [user, setUser] = useState({
-    role: "USER",
+    role: USER_ROLES.USER,
     emailId: "",
     username: "",
     pass: "",
@@ -25,9 +26,9 @@ const RegisterUser = ({ setIsAuthenticated }) => {
 
     if (e.target.name === "role") {
       if (e.target.value === "on") {
-        value = "ADMIN";
+        value = USER_ROLES.ADMIN;
       } else {
-        value = "USER";
+        value = USER_ROLES.USER;
       }
     }
     setUser({ ...user, [e.target.name]: value });
@@ -64,9 +65,9 @@ const RegisterUser = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="container">
-      <div className="d-flex justify-content-center h-100">
-        <div className="d-flex justify-content-end register-companyLogo">
+    <div className="registration-container">
+      <div className=" h-100">
+        <div className="register-companyLogo">
           <span>
             <img src={logo} alt="Evolved Vision Logo" height={50}></img>
           </span>

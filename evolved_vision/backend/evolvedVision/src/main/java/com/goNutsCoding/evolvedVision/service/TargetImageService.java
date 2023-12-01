@@ -7,7 +7,7 @@ import com.goNutsCoding.evolvedVision.repository.TargetImageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TargetImageService {
@@ -22,5 +22,15 @@ public class TargetImageService {
 
     public TargetImage saveTargetImage(TargetImage targetImage) {
         return targetImageRepo.save(targetImage);
+    }
+
+    public List<TargetImageDto> getAllTargetImages() {
+        List<TargetImage> targetImages = targetImageRepo.findAll();
+        List<TargetImageDto> targetImageDtos = new ArrayList<>();
+
+        targetImages.forEach(arContent -> targetImageDtos.add(
+                TargetImageMapper.mapTargetImageToTargetImageDto(arContent)));
+
+        return targetImageDtos;
     }
 }

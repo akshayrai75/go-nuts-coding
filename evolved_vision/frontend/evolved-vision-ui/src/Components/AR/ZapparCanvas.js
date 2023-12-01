@@ -1,43 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ZapparCamera, ZapparCanvas } from "@zappar/zappar-react-three-fiber";
 import ImgTracking from "./ImgTracking";
+import { extractDetails } from "../../utils/extractSubmittedList";
+import APIService from "../../utils/APIService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  const [arInfo, setArInfo] = useState([
-    {
-      header: "camera",
-      description: "cam target image",
-      targetImage: "https://files.catbox.moe/dhr9y6.zpt",
-      color: "blue",
-    },
-    {
-      header: "Dog",
-      description: "dog target image",
-      targetImage: "https://files.catbox.moe/7x5hfw.zpt",
-      color: "red",
-    },
-    {
-      header: "gratisography",
-      description: "gratisography target img",
-      targetImage: "https://files.catbox.moe/i4ivzf.zpt",
-      color: "green",
-    },
-    {
-      header: "Microscope",
-      targetImage: "https://files.catbox.moe/nvdpou.zpt",
-      description:
-        "A microscope is an instrument that can be used to observe small objects, even cells. The image of an object is magnified through at least one lens in the microscope.",
-    },
-  ]);
+  const [arInfo, setArInfo] = useState([]);
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    // fetch details
+    // TODO: need to change the API, hardcoded the userid to get some details
+    APIService.getData("member", `user/${user.id}`)
+      .then((res) => {
+        toast.success("Data received Successfully");
+        console.log(res.data);
+        const formData = extractDetails(res.data);
+        setArInfo(formData);
+      })
+      .catch((error) => {
+        toast.error("Internal server issue, please try again later.");
+      });
+  }, []);
 
   return (
-    <ZapparCanvas>
-      <ZapparCamera />
-      {arInfo.map((info) => (
-        <ImgTracking {...info} />
-      ))}
-      <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
-    </ZapparCanvas>
+    <>
+      <ZapparCanvas>
+        <ZapparCamera />
+        {arInfo.map((info) => (
+          <ImgTracking {...info} />
+        ))}
+        <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
+      </ZapparCanvas>
+      <ToastContainer />
+    </>
   );
 };
 

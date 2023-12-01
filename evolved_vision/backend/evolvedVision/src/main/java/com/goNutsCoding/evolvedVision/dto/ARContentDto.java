@@ -1,5 +1,6 @@
 package com.goNutsCoding.evolvedVision.dto;
 
+import com.goNutsCoding.evolvedVision.entity.ARAssetFiles;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,4 +14,6 @@ public class ARContentDto implements Serializable {
     private final Date lastModified;
     private final String contentHeader;
     private final String contentBody;
+    private final ARAssetFiles arAssetFiles;
+    private final UUID arAssetId;
 }

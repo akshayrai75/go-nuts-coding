@@ -6,6 +6,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "content")
@@ -21,4 +23,8 @@ public class ARContent extends BaseEntity {
 
     @OneToOne(mappedBy = "arContent")
     private ARAsset arAsset;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "ar_asset_files", columnDefinition = "jsonb")
+    private ARAssetFiles arAssetFiles;
 }

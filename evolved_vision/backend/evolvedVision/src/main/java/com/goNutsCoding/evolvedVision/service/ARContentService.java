@@ -7,7 +7,7 @@ import com.goNutsCoding.evolvedVision.repository.ARContentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ARContentService {
@@ -22,5 +22,14 @@ public class ARContentService {
 
     public ARContent saveARContent(ARContent arContent) {
         return arContentRepo.save(arContent);
+    }
+
+    public List<ARContentDto> getAllARContent() {
+        List<ARContent> arContents = arContentRepo.findAll();
+        List<ARContentDto> arContentDtos = new ArrayList<>();
+
+        arContents.forEach(arContent -> arContentDtos.add(ARContentMapper.mapARContentToARContentDto(arContent)));
+
+        return arContentDtos;
     }
 }

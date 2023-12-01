@@ -1,5 +1,6 @@
 package com.goNutsCoding.evolvedVision.service;
 
+import com.goNutsCoding.evolvedVision.dto.ARAssetFilesDTO;
 import com.goNutsCoding.evolvedVision.entity.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -37,9 +38,9 @@ public class AdminService {
     @Autowired
     private MemberService memberService;
 
-    public ResponseEntity<String> addNewContent(MultipartFile pdfFile, MultipartFile arModelFile,
-                                                MultipartFile targetImageFile, String title,
-                                                String description, String userId) {
+    public ResponseEntity<String> addNewContent(MultipartFile pdfFile, String model,
+                                                String targetImage, String title,
+                                                String description, ARAssetFilesDTO arAssets, String userId) {
 
         try {
             String pdfContent = extractContent(pdfFile);
@@ -51,17 +52,15 @@ public class AdminService {
                 System.out.println("GOT PDF SUMMARY FROM OPEN AI");
             }
             String pdfOns3 = awsService.uploadFile(pdfFile, userId);
-            String arModelOns3 = awsService.uploadFile(arModelFile, userId);
-            String targetImgOns3 = awsService.uploadFile(targetImageFile, userId);
 
 //            Saving content in relevant tables.
             Optional<Member> member = memberService.getMemberById(UUID.fromString(userId));
             Member user = member.orElse(null);
-            ARContent arContent = saveARContent(title, description);
+            ARContent arContent = saveARContent(title, description, arAssets);
             FileNote fileNote = saveFileNotes(pdfOns3, pdfSummary, user);
-            TargetImage targetImage = saveTargetImage(targetImgOns3);
+            TargetImage targetImageObj = saveTargetImage(targetImage);
 
-            saveARAsset(user,arModelOns3, fileNote, arContent, targetImage);
+            saveARAsset(user,model, fileNote, arContent, targetImageObj);
             System.out.println("SAVED AR CONTENT");
 
             return ResponseEntity.ok("Content created successfully.");
@@ -92,12 +91,15 @@ public class AdminService {
         return text;
     }
 
-    private ARContent saveARContent(String heading, String body) {
+    private ARContent saveARContent(String heading, String body, ARAssetFilesDTO arAssets) {
+        ARAssetFiles arAssetFiles = new ARAssetFiles(arAssets.getImages(), arAssets.getVideos());
+
         ARContent arContent = new ARContent();
         arContent.setContentBody(body);
         arContent.setContentHeader(heading);
         arContent.setCreated(new Date(System.currentTimeMillis()));
         arContent.setLastModified(new Date(System.currentTimeMillis()));
+        arContent.setArAssetFiles(arAssetFiles);
         return arContentService.saveARContent(arContent);
     }
 
@@ -127,7 +129,7 @@ public class AdminService {
         arAsset.setMember(user);
         arAsset.setArContent(arContent);
         arAsset.setFileNote(fileNote);
-        arAsset.setModelAddress(modelAddress);
+        arAsset.setArOverlay(modelAddress);
         arAsset.setTargetImage(targetImage);
         arAsset.setTakeNotes(Boolean.FALSE);
         arAsset.setCreated(new Date(System.currentTimeMillis()));

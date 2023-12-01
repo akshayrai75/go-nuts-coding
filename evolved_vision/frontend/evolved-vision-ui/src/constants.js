@@ -1,4 +1,6 @@
 export const USER_ROLES = {
   ADMIN: "ADMIN",
-  USER: "USER",
+  USER: "MEMBER",
 };
+
+export const IS_CUSTOM_TEMPLATE = "isCustomTemplate";

@@ -25,6 +25,7 @@ function ContentForm(props) {
   } = props;
 
   const setDetails = (name, value) => {
+    // console.log("name", name, value);
     setFormDetails((fd) => ({
       ...fd,
       [name]: value,
@@ -33,7 +34,7 @@ function ContentForm(props) {
 
   const handleFormInput = (e) => {
     try {
-      const field = e.target;
+      const field = e.target.name;
       switch (field) {
         case "pdfFile":
         case "arModelFile":
@@ -50,9 +51,9 @@ function ContentForm(props) {
   };
 
   function handleFileChange(e) {
-    console.log(e.target);
-    if (e.target.files && e.target.files[0])
+    if (e.target.files && e.target.files[0]) {
       setDetails(e.target.name, e.target.files[0]);
+    }
   }
 
   return (
@@ -92,7 +93,6 @@ function ContentForm(props) {
                 placeholder="Add PDF"
                 label="pdfFile"
                 name="pdfFile"
-                value={formDetails.pdfFile}
                 onChange={handleFormInput}
               />
             </FormControl>
@@ -116,7 +116,6 @@ function ContentForm(props) {
                 placeholder="Add AR Model"
                 label="arModelFile"
                 name="arModelFile"
-                value={formDetails.arModelFile}
                 onChange={handleFormInput}
               />
             </FormControl>

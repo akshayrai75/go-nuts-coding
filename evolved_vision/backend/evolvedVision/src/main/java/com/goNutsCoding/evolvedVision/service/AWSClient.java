@@ -16,8 +16,10 @@ import java.io.*;
 import java.util.Date;
 
 /**
- * This class is for enabling saving files obtained from UI like ARContent model, PDF File and Target image on AWS S3
- * Referenced from : https://medium.com/oril/uploading-files-to-aws-s3-bucket-using-spring-boot-483fcb6f8646
+ * This class is for enabling saving files obtained from UI like ARContent
+ * model, PDF File and Target image on AWS S3
+ * Referenced from :
+ * https://medium.com/oril/uploading-files-to-aws-s3-bucket-using-spring-boot-483fcb6f8646
  * Site: medium.com
  * Topic: Uploading files to AWS S3 Bucket using Spring Boot
  */
@@ -39,9 +41,11 @@ public class AWSClient {
 
     /**
      * One of the latest way of developing S3 client.
-     * Reference: https://stackoverflow.com/questions/68005239/how-do-you-configure-the-endpoint-for-amazon-s3-by-using-the-aws-sdk-v2
+     * Reference:
+     * https://stackoverflow.com/questions/68005239/how-do-you-configure-the-endpoint-for-amazon-s3-by-using-the-aws-sdk-v2
      * Site: stackoverflow.com
-     * Topic: How do you configure the endpoint for Amazon S3 by using the AWS SDK V2?
+     * Topic: How do you configure the endpoint for Amazon S3 by using the AWS SDK
+     * V2?
      */
     @PostConstruct
     private void initializeAmazon() {
@@ -66,12 +70,14 @@ public class AWSClient {
 
     /**
      * Uploading file to S3
-     * Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_PutObject_section.html
+     * Reference:
+     * https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_PutObject_section.html
      * Site: docs.aws.amazon.com
      * Topic: Upload an object to an Amazon S3 bucket using an AWS SDK
      */
     private PutObjectResponse uploadFileTos3bucket(String fileName, File file) {
-        return s3client.putObject(PutObjectRequest.builder().bucket(bucketName).key(fileName).build(),
+        return s3client.putObject(
+                PutObjectRequest.builder().bucket(bucketName).key(fileName).acl(ObjectCannedACL.PUBLIC_READ).build(),
                 RequestBody.fromFile(file));
     }
 
@@ -96,11 +102,15 @@ public class AWSClient {
     }
 
     /**
-     * This class is for retrieving files like ARContent model, PDF File and Target image from AWS S3
-     * Referenced from : https://www.baeldung.com/java-aws-s3#3-downloading-an-object
-     * 2nd Ref: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_GetObject_section.html
+     * This class is for retrieving files like ARContent model, PDF File and Target
+     * image from AWS S3
+     * Referenced from :
+     * https://www.baeldung.com/java-aws-s3#3-downloading-an-object
+     * 2nd Ref:
+     * https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_GetObject_section.html
      * Site: baeldung.com && docs.aws.amazon.com
-     * Topic: AWS S3 with Java: 6.3 Downloading an Object && Get an object from an Amazon S3 bucket using an AWS SDK
+     * Topic: AWS S3 with Java: 6.3 Downloading an Object && Get an object from an
+     * Amazon S3 bucket using an AWS SDK
      */
     public File getFileFromS3(String s3ObjectAddress) {
         String inputFilename = s3ObjectAddress.substring(s3ObjectAddress.lastIndexOf("/") + 1);

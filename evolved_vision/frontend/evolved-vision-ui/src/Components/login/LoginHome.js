@@ -46,9 +46,9 @@ const LoginHome = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="container">
-      <div className="d-flex justify-content-center h-100">
-        <div className="d-flex justify-content-end companyLogo">
+    <div className="login-container">
+      <div className="h-100">
+        <div className="companyLogo">
           <span>
             <img src={logo} alt="Evolved Vision Logo" height={"120vm"}></img>
           </span>
