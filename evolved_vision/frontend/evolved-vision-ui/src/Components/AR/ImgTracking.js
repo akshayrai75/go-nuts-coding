@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { ImageTracker } from "@zappar/zappar-react-three-fiber";
 import { Html } from "@react-three/drei";
 
-function ImgTracking({ header, description, targetImage, modelAddress }) {
+function ImgTracking(props) {
+  console.log("props", props);
+  const { header, description, customTemplate, targetImage, modelAddress } =
+    props;
+  // console.log("modelAddress", modelAddress);
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   return (
     <ImageTracker
@@ -21,7 +25,14 @@ function ImgTracking({ header, description, targetImage, modelAddress }) {
       <mesh position={[0, 0, -5]}>
         {isOverlayVisible && (
           <Html>
-            <div dangerouslySetInnerHTML={{ __html: modelAddress }} />
+            <div
+              style={{
+                background: "white",
+                minWidth: "500px",
+                minHeight: "300px",
+              }}
+              dangerouslySetInnerHTML={{ __html: modelAddress }}
+            />
           </Html>
         )}
       </mesh>
