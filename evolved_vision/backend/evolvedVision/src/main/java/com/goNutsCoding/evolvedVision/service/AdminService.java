@@ -92,7 +92,7 @@ public class AdminService {
     }
 
     private ARContent saveARContent(String heading, String body, ARAssetFilesDTO arAssets) {
-        ARAssetFiles arAssetFiles = new ARAssetFiles(arAssets.getImages(), arAssets.getVideos());
+        ARAssetFiles arAssetFiles = new ARAssetFiles(arAssets.getImages(), arAssets.getVideos(), arAssets.getOrgTargetImage(), arAssets.isCustomTemplate());
 
         ARContent arContent = new ARContent();
         arContent.setContentBody(body);
