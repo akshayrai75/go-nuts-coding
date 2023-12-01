@@ -43,14 +43,14 @@ public class AdminService {
             String description, ARAssetFilesDTO arAssets, String userId) {
 
         try {
-            String pdfContent = extractContent(pdfFile);
+            // String pdfContent = extractContent(pdfFile);
             System.out.println("GOT PDF CONTENT");
             String pdfSummary = "";
 
-            if (!"Error parsing PDF".equals(pdfContent)) {
-                pdfSummary = openAIService.getSummary(pdfContent);
-                System.out.println("GOT PDF SUMMARY FROM OPEN AI");
-            }
+            // if (!"Error parsing PDF".equals(pdfContent)) {
+            // pdfSummary = openAIService.getSummary(pdfContent);
+            // System.out.println("GOT PDF SUMMARY FROM OPEN AI");
+            // }
             String pdfOns3 = awsService.uploadFile(pdfFile, userId);
 
             // Saving content in relevant tables.
