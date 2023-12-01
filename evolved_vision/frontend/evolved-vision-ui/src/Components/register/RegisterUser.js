@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/logo512.png";
 import "./RegisterUser.css";
 import Form from "react-bootstrap/Form";
@@ -7,25 +7,76 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
+import APIService from "../../utils/APIService";
+import { useNavigate } from "react-router-dom";
+import { Heading } from "@chakra-ui/react";
 
-const RegisterUser = () => {
-  const handleChange = (e) => {};
+const RegisterUser = ({ setIsAuthenticated }) => {
+  const [user, setUser] = useState({
+    role: "USER",
+    emailId: "",
+    username: "",
+    pass: "",
+  });
+  const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    let value = e.target.value;
+
+    if (e.target.name === "role") {
+      if (e.target.value === "on") {
+        value = "ADMIN";
+      } else {
+        value = "USER";
+      }
+    }
+    setUser({ ...user, [e.target.name]: value });
+  };
 
   const registerUser = (e) => {
     e.preventDefault();
+    APIService.postData("member", "register", user)
+      .then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          console.log("User Added Successfully");
+          setMsg("User Added Sucessfully");
+          setUser({
+            role: "USER",
+            emailId: "",
+            username: "",
+            pass: "",
+          });
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setMsg(
+          "Either member with same username or email already exists, hence try different details, or internal server issue, hence try again later."
+        );
+      });
+  };
+
+  const getPanelHeight = () => {
+    if (msg) {
+      return { height: "550px" };
+    }
   };
 
   return (
     <div className="container">
       <div className="d-flex justify-content-center h-100">
-        <div className="d-flex justify-content-end companyLogo">
+        <div className="d-flex justify-content-end register-companyLogo">
           <span>
-            <img src={logo} alt="Evolved Vision Logo" height={"120vm"}></img>
+            <img src={logo} alt="Evolved Vision Logo" height={50}></img>
           </span>
         </div>
-        <div className="register-panel">
+        <div className="register-panel" style={getPanelHeight()}>
           <div className="register-panel-header">
-            <h1>Sign Up</h1>
+            {/* <h1>Sign Up</h1> */}
+            <Heading style={{ color: "white", height: "70px" }}>
+              Sign Up
+            </Heading>
           </div>
           <div className="register-panel-body">
             <Form onSubmit={(e) => registerUser(e)}>
@@ -96,6 +147,7 @@ const RegisterUser = () => {
               Hhave an account? <a href="/">Sign In</a>
             </div>
           </div>
+          {msg && <text style={{ color: "red" }}>{msg}</text>}
         </div>
       </div>
     </div>

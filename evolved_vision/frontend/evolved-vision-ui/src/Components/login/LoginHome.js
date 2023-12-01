@@ -7,8 +7,10 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup } from "react-bootstrap";
+import APIService from "../../utils/APIService";
+import { Heading } from "@chakra-ui/react";
 
-const LoginHome = () => {
+const LoginHome = ({ setIsAuthenticated }) => {
   const [user, setUser] = useState({
     username: "",
     pass: "",
@@ -23,7 +25,24 @@ const LoginHome = () => {
 
   const userLogin = (e) => {
     e.preventDefault();
-    // TODO: API intergation
+    console.log("user", user);
+    APIService.postData("member", "login", user)
+      .then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          console.log(res, res.ok, "Login Successfully");
+          setMsg("Login Sucessfully");
+          setUser({
+            username: "",
+            pass: "",
+          });
+          sessionStorage.setItem("user", JSON.stringify(res.data));
+          setIsAuthenticated(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setMsg("Invalid user credentials");
+      });
   };
 
   return (
@@ -36,9 +55,12 @@ const LoginHome = () => {
         </div>
         <div className="login-panel">
           <div className="login-panel-header">
-            <h1>Sign In</h1>
+            <Heading style={{ color: "white", height: "100px" }}>
+              Sign In
+            </Heading>
           </div>
           <div className="login-panel-body">
+            {msg && <text style={{ color: "red" }}>{msg}</text>}
             <Form onSubmit={(e) => userLogin(e)}>
               <InputGroup size="lg" className="mb-3 login-input-group-set">
                 <FontAwesomeIcon
