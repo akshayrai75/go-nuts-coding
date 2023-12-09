@@ -39,8 +39,8 @@ public class AdminService {
     private MemberService memberService;
 
     public ResponseEntity<String> addNewContent(MultipartFile pdfFile, String model,
-                                                String targetImage, String title,
-                                                String description, ARAssetFilesDTO arAssets, String userId) {
+            String targetImage, String title,
+            String description, ARAssetFilesDTO arAssets, String userId) {
 
         try {
             String pdfContent = extractContent(pdfFile);
@@ -53,14 +53,14 @@ public class AdminService {
             }
             String pdfOns3 = awsService.uploadFile(pdfFile, userId);
 
-//            Saving content in relevant tables.
+            // Saving content in relevant tables.
             Optional<Member> member = memberService.getMemberById(UUID.fromString(userId));
             Member user = member.orElse(null);
             ARContent arContent = saveARContent(title, description, arAssets);
             FileNote fileNote = saveFileNotes(pdfOns3, pdfSummary, user);
             TargetImage targetImageObj = saveTargetImage(targetImage);
 
-            saveARAsset(user,model, fileNote, arContent, targetImageObj);
+            saveARAsset(user, model, fileNote, arContent, targetImageObj);
             System.out.println("SAVED AR CONTENT");
 
             return ResponseEntity.ok("Content created successfully.");
@@ -71,12 +71,15 @@ public class AdminService {
     }
 
     /**
-     * Extract text content from uploaded PDFs. But it only works if PDF has been converted from other document types
-     * properly. That means if you open the PDF, the texts that could be selected can only be extracted.
-     * Referenced from : https://medium.com/@georgeberar/springboot-extract-text-from-pdf-1d8d41b5adac
+     * Extract text content from uploaded PDFs. But it only works if PDF has been
+     * converted from other document types
+     * properly. That means if you open the PDF, the texts that could be selected
+     * can only be extracted.
+     * Referenced from :
+     * https://medium.com/@georgeberar/springboot-extract-text-from-pdf-1d8d41b5adac
      * Site: medium.com
      * Topic: Uploading files to AWS S3 Bucket using Spring Boot
-     * */
+     */
     private String extractContent(final MultipartFile multipartFile) {
         String text;
 
@@ -84,7 +87,7 @@ public class AdminService {
             final PDFTextStripper pdfStripper = new PDFTextStripper();
             text = pdfStripper.getText(document);
         } catch (final Exception ex) {
-//            log.error("Error parsing PDF", ex);
+            // log.error("Error parsing PDF", ex);
             text = "Error parsing PDF";
         }
 
@@ -92,7 +95,8 @@ public class AdminService {
     }
 
     private ARContent saveARContent(String heading, String body, ARAssetFilesDTO arAssets) {
-        ARAssetFiles arAssetFiles = new ARAssetFiles(arAssets.getImages(), arAssets.getVideos(), arAssets.getOrgTargetImage(), arAssets.isCustomTemplate());
+        ARAssetFiles arAssetFiles = new ARAssetFiles(arAssets.getImages(), arAssets.getVideos(),
+                arAssets.getOrgTargetImage(), arAssets.isCustomTemplate());
 
         ARContent arContent = new ARContent();
         arContent.setContentBody(body);
@@ -124,7 +128,7 @@ public class AdminService {
     }
 
     private ARAsset saveARAsset(Member user, String modelAddress, FileNote fileNote, ARContent arContent,
-                                TargetImage targetImage) {
+            TargetImage targetImage) {
         ARAsset arAsset = new ARAsset();
         arAsset.setMember(user);
         arAsset.setArContent(arContent);

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AdminHome.css";
 import { Button, Table, Spinner } from "react-bootstrap";
-import NewContent from "./NewContent";
-import DetailsForm from "./DetailsForm";
 import { useNavigate } from "react-router-dom";
 import APIService from "../../utils/APIService";
 import { extractDetails } from "../../utils/extractSubmittedList";
@@ -11,19 +9,6 @@ const AdminHome = () => {
   const [contentData, setContentData] = useState(null);
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(true);
-
-  const [detailsViewData, setDetailsViewData] = useState({
-    date: "",
-    title: "",
-    description: "",
-    pdfFileName: "",
-    pdfSummary: "PDF Summary...",
-    modelFileName: "",
-    targetImageFileName: "",
-  });
-
-  const [isNewContent, setNewContent] = useState(false);
-  const [isDetailsOpen, setDetailsOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -133,17 +118,6 @@ const AdminHome = () => {
           <tbody>{getTableRows()}</tbody>
         </Table>
       )}
-      <NewContent
-        isNewContent={isNewContent}
-        onNewContentClose={() => setNewContent(false)}
-      />
-      <DetailsForm
-        isDetailsOpen={isDetailsOpen}
-        onDetailsOpen={() => setDetailsOpen(true)}
-        detailsViewData={detailsViewData}
-        setDetailsViewData={setDetailsViewData}
-        onDetailsClose={() => setDetailsOpen(false)}
-      />
     </div>
   );
 };

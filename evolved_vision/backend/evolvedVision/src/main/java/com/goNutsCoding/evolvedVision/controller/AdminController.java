@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/member/admin")
 @Validated
+@CrossOrigin(origins = "*")
 public class AdminController {
 
     @Autowired
@@ -30,12 +31,12 @@ public class AdminController {
     @PostMapping(value = "/add-new-content", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @CrossOrigin
     public ResponseEntity<String> addNewContent(@RequestPart("pdfFile") MultipartFile pdfFile,
-                                                @RequestParam String model,
-                                                @RequestParam String targetImage,
-                                                @RequestParam String title,
-                                                @RequestParam String description,
-                                                @RequestParam String arAssets,
-                                                @RequestParam String userId) throws JsonProcessingException {
+            @RequestParam String model,
+            @RequestParam String targetImage,
+            @RequestParam String title,
+            @RequestParam String description,
+            @RequestParam String arAssets,
+            @RequestParam String userId) throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
         ARAssetFilesDTO arAssetsDto = mapper.readValue(arAssets, ARAssetFilesDTO.class);

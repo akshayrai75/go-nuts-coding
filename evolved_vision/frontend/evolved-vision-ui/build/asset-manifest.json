@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c7eb9b15.css",
-    "main.js": "/static/js/main.cbfa8511.js",
+    "main.css": "/static/css/main.9eeee316.css",
+    "main.js": "/static/js/main.1d74413c.js",
     "static/js/292.fbed9a16.chunk.js": "/static/js/292.fbed9a16.chunk.js",
     "static/media/zappar-cv.wasm": "/static/media/zappar-cv.c85c7df8e3132b359723.wasm",
     "static/media/face_mesh_full_head_simplified_model.zbin": "/static/media/face_mesh_full_head_simplified_model.f7b62a3a53b5c9b3222b.zbin",
@@ -10,12 +10,12 @@
     "static/media/face_tracking_model.zbin": "/static/media/face_tracking_model.482727c0e7dd40d73f5a.zbin",
     "static/media/logo512.png": "/static/media/logo512.7f2be833bdb20c34b2c5.png",
     "index.html": "/index.html",
-    "main.c7eb9b15.css.map": "/static/css/main.c7eb9b15.css.map",
-    "main.cbfa8511.js.map": "/static/js/main.cbfa8511.js.map",
+    "main.9eeee316.css.map": "/static/css/main.9eeee316.css.map",
+    "main.1d74413c.js.map": "/static/js/main.1d74413c.js.map",
     "292.fbed9a16.chunk.js.map": "/static/js/292.fbed9a16.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c7eb9b15.css",
-    "static/js/main.cbfa8511.js"
+    "static/css/main.9eeee316.css",
+    "static/js/main.1d74413c.js"
   ]
 }

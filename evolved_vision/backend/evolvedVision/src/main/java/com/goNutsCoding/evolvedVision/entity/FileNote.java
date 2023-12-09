@@ -12,17 +12,17 @@ import java.util.Set;
 @Table(name = "file_note")
 @Getter
 @Setter
-public class FileNote extends BaseEntity{
+public class FileNote extends BaseEntity {
 
     private String fileAddress;
 
-    @Column(columnDefinition = "varchar(500)")
+    @Column(columnDefinition = "varchar(5000)")
     private String notes;
 
     @ManyToOne
-    @JoinColumn(name="member_id", nullable=false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy="fileNote")
+    @OneToMany(mappedBy = "fileNote")
     private Set<ARAsset> arAssets;
 }

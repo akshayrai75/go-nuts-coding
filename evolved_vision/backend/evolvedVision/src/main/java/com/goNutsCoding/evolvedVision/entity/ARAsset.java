@@ -8,17 +8,17 @@ import lombok.Setter;
 @Table(name = "ar_content")
 @Getter
 @Setter
-public class ARAsset extends BaseEntity{
+public class ARAsset extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name="member_id", nullable=false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(columnDefinition = "varchar(2000)")
+    @Column(columnDefinition = "varchar(5000)")
     private String arOverlay;
 
     @ManyToOne
-    @JoinColumn(name="file_note_id", nullable=false)
+    @JoinColumn(name = "file_note_id", nullable = false)
     private FileNote fileNote;
 
     @OneToOne(cascade = CascadeType.ALL)
